@@ -94,90 +94,142 @@ public class Yahtzee
 		return count[5] * 6;
 	}
 	//special points down here
-	public int getThreeOfAKind()
+	public int getScoreThreeOfAKind()
 	{
-		int ret = 0;
+		int point = 0;
 		for(int i = 0; i < dice.length; i++)
 			if(count[i] >= 3)
 			{
-				ret = (1 + i) * 3;
+				point = (1 + i) * 3;
 			}
-		return ret;
+		return point;
 	}
 	
-	public int getFourOfAKind()
+	public int getScoreFourOfAKind()
 	{
-		int ret = 0;
+		int point = 0;
 		for(int i = 0; i<dice.length; i++)
+			if(count[i] >= 4)
+			{
+				point = (1 + i) * 4;
+			}
+		return point;
+	}
+	
+	public int getScoreFullHouse()
+	{
+		int point = 0;
+		for(int i = 0; i < dice.length; i++)
 			if(count[i] >= 3)
 			{
-				ret = (1 + i) * 4;
+				point = 0;
+				for(int j = 0; j < dice.length; j++)
+				if( i != j)
+				{
+					if(count[j] >= 2)
+					{
+						point = 25;
+						return point;
+					}
+				}
 			}
-		return ret;
+		return point;
 	}
 	
-	public int getFullHouse()
+	public int getScoreSmallStraight()
 	{
-		int house = 0;
-		for(int i = 0; i < 6; i++)
+		int point = 0;
+		for( int i = 0; i < dice.length; i++)
 		{
-			for(int j = 0; i < 6; i++)
-			{
-				if (count[i] == 3 && count[j] == 2);
-				return 25;
-			}  
-		}	
-		return 0;
-	}
-	
-	public int getSmallStraight()
-	{
-		int score = 0;
-		for(int i = 0; i < dice.length; i++)
-		{
-			for(int j = 0; i < dice.length; i++)
+			for( int j = 0; j < dice.length; j++)
 			{
 				if(dice[i].getValue() + 1 == dice[j].getValue())
 				{
-					score++;
-					break;
+					point++;
+				break;
 				}
 			}
 		}
-		if (score >= 4)
+		if(point >= 4)
+		{
 			return 30;
+		}
 		return 0;
 	}
 	
-	public int getLargeStraight()
+	public int getScoreLargeStraight()
 	{
-		int score = 0;
-		for(int i = 0; i < dice.length; i++)
+		int point = 0;
+		for( int i = 0; i < dice.length; i++)
 		{
-			for(int j = 0; i < dice.length; i++)
+			for( int j = 0; j < dice.length; j++)
 			{
 				if(dice[i].getValue() + 1 == dice[j].getValue())
 				{
-					score++;
-					break;
+					point++;
+				break;
 				}
 			}
 		}
-		if (score >= 5)
+		if(point >= 5)
+		{
 			return 40;
+		}
 		return 0;
 	}
 	
-	
-	
-	public int YatzeeFive()
+	public int getScoreChance()
 	{
-			int ret = 0;
-			for(int i = 0; i <dice.length; i++)
-				if(count[i] >= 3)
-				{
-					ret = (1 + i) * 3;
-				}
-			return 50;
+		int chance = 0;
+		for(int i = 0; i < dice.length; i++)
+		{
+			chance += dice[i].getValue();
+		}
+		return chance;
+	}
+		
+	public int getScoreYatzee()
+	{
+		int point = 0;
+		for(int i = 0; i<dice.length; i++)
+			if(count[i] >= 5)
+			{
+				point = (1 + i) * 5;
+				return 50;
+			}
+		return 0;
+	}
+	
+	public String getScoreCard()
+	{
+		Yahtzee yahtzee = new Yahtzee();
+		String yes = "";
+		yes += yahtzee.showDice();
+		yes += "Three of a Kind: " + yahtzee.getScoreThreeOfAKind(); //working
+		yes += " Four of a Kind: " + yahtzee.getScoreFourOfAKind();	//working
+		yes += " Full House: " + yahtzee.getScoreFullHouse(); //working
+		yes += " Small Straight: " + yahtzee.getScoreSmallStraight(); //working
+		yes += " Large Straight: " + yahtzee.getScoreLargeStraight();//working
+		yes += " Chance: " + yahtzee.getScoreChance();	//working
+		yes += " Yahtzee: " + yahtzee.getScoreYatzee();  //working
+		return yes;
+	}
+	
+	public String Debug()	
+	{	String showDice = "test";
+		for ( int i = 0; i < 5; i++) 
+		{
+			showDice += dice[i].getValue();
+		}
+		return showDice;
+	}
+	
+	public String Debug2()	
+	{	String showDice = "test";
+		for ( int i = 0; i < 5; i++) 
+		{
+			showDice += count[i];
+		}
+		return showDice;
 	}
 }

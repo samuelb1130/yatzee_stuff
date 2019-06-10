@@ -5,10 +5,12 @@ import java.util.Random;
 public class Die {
 	
 	private int num;
-		
+
 	public Die()
 	{
-		num = 0;
+		num = roll();
+		//num = 5; //debug
+		
 	}
 	
 	public int roll()
